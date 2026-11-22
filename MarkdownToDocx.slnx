@@ -1,0 +1,10 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/MarkdownToDocx.Core/MarkdownToDocx.Core.csproj" />
+    <Project Path="src/MarkdownToDocx/MarkdownToDocx.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/MarkdownToDocx.Tests/MarkdownToDocx.Tests.csproj" />
+    <Project Path="tests/MarkdownToDocx.UiTests/MarkdownToDocx.UiTests.csproj" />
+  </Folder>
+</Solution>

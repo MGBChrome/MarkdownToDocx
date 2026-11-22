@@ -88,4 +88,3 @@ Für die lokale Entwicklung wurde LibreOffice **26.8.3.1** separat eingerichtet:
 Die offizielle, signierte Windows-x64-MSI wurde mit `msiexec /a` in diesen Ordner entpackt. Die Prüfsumme wurde vor der Einrichtung mit dem Windows-Paketkatalog abgeglichen. Diese separate Installation übernimmt keine Dateizuordnungen. Für den Renderer wird der Programmordner nur im jeweiligen Prozess dem `PATH` hinzugefügt. LibreOffice gehört nicht zu den Abhängigkeiten der ausgelieferten Avalonia-Anwendung.
 
 Der Codex-Dokumentrenderer `render_docx.py` kann damit DOCX-Dateien über ein temporäres LibreOffice-Profil als PDF und PNG-Seiten rendern. Zusätzlich wurde die Ausgabe mit Microsoft Word geprüft. Seitenumbrüche können sich je nach Word-/LibreOffice-Version und installierten Schriftarten leicht unterscheiden; eine pixelgleiche Kopie der ChatGPT-Webansicht ist nicht das Ziel.
-# MarkdownToDocx

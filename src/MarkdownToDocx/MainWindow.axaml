@@ -1,0 +1,154 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="using:MarkdownToDocx"
+        x:Class="MarkdownToDocx.MainWindow"
+        x:DataType="local:MainViewModel"
+        Title="Markdown to Word"
+        Width="900" Height="870" MinWidth="700" MinHeight="650"
+        WindowStartupLocation="CenterScreen"
+        Background="#F4F6FB">
+  <Grid RowDefinitions="68,*,Auto">
+    <Border Background="White" BorderBrush="#E1E6F0" BorderThickness="0,0,0,1" Padding="36,0">
+      <Grid ColumnDefinitions="Auto,*,Auto">
+        <Border Width="34" Height="34" CornerRadius="10" Background="#315BDF" VerticalAlignment="Center">
+          <Path Data="M 3,5 L 3,19 M 3,5 L 9,12 L 15,5 L 15,19 M 21,5 L 21,19 M 17,15 L 21,19 L 25,15"
+                Stroke="White" StrokeThickness="2" Width="28" Height="24" HorizontalAlignment="Center" VerticalAlignment="Center" />
+        </Border>
+        <TextBlock Grid.Column="1" Text="Markdown to Word" Margin="12,0" FontSize="16" FontWeight="SemiBold" VerticalAlignment="Center" />
+        <Border Grid.Column="2" Background="#EFF3FB" CornerRadius="20" Padding="12,6" VerticalAlignment="Center">
+          <TextBlock Text=".md  →  .docx" FontSize="12" Foreground="#4D6287" FontWeight="SemiBold" />
+        </Border>
+      </Grid>
+    </Border>
+
+    <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Disabled">
+      <StackPanel Margin="36,24,36,20" Spacing="16" MaxWidth="1000">
+        <Grid ColumnDefinitions="*,126" Margin="0,0,0,8" IsVisible="{Binding IsFileSource}">
+          <StackPanel Spacing="8" VerticalAlignment="Center">
+            <TextBlock Text="KLEINER SCHRITT. FERTIGES DOKUMENT." FontSize="11" LetterSpacing="1.5" Foreground="#315BDF" FontWeight="Bold" />
+            <TextBlock Text="Dein Markdown. Als Word." FontSize="30" FontWeight="Bold" LetterSpacing="-0.6" />
+            <TextBlock Classes="muted" Text="Datei auswählen oder Text einfügen. Dein Word-Dokument ist gleich bereit." TextWrapping="Wrap" />
+          </StackPanel>
+          <Grid Grid.Column="1" Height="96" IsHitTestVisible="False">
+            <Border Width="57" Height="73" CornerRadius="9" Background="#E1E8FA" BorderBrush="#CED8EE" BorderThickness="1" HorizontalAlignment="Left" VerticalAlignment="Top" Padding="10">
+              <StackPanel Spacing="7">
+                <TextBlock Text="#" FontSize="22" Foreground="#758AB5" FontWeight="Bold" />
+                <Border Height="3" Background="#B5C4E5" CornerRadius="1" />
+                <Border Height="3" Width="22" Background="#B5C4E5" CornerRadius="1" HorizontalAlignment="Left" />
+              </StackPanel>
+            </Border>
+            <Border Width="66" Height="82" CornerRadius="10" Background="White" BorderBrush="#D2DCEE" BorderThickness="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" Padding="12">
+              <StackPanel Spacing="8">
+                <TextBlock Text="W" FontSize="24" Foreground="#315BDF" FontWeight="Bold" />
+                <Border Height="3" Background="#A9BDEB" CornerRadius="1" />
+                <Border Height="3" Width="26" Background="#D7E1F4" CornerRadius="1" HorizontalAlignment="Left" />
+              </StackPanel>
+            </Border>
+          </Grid>
+        </Grid>
+
+        <Border Classes="card">
+          <StackPanel Spacing="14">
+            <Grid ColumnDefinitions="32,*,Auto">
+              <Border Background="#EEF2FD" CornerRadius="9" Width="28" Height="28">
+                <TextBlock Text="1" Foreground="#315BDF" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" />
+              </Border>
+              <TextBlock Grid.Column="1" Text="Deine Quelle" Margin="8,0,0,0" FontSize="17" FontWeight="SemiBold" VerticalAlignment="Center" />
+            <ListBox Grid.Column="2" x:Name="SourceSelector" SelectedIndex="{Binding SourceIndex, Mode=TwoWay}" IsEnabled="{Binding IsIdle}"
+                     Background="#F0F3FA" CornerRadius="10" Padding="4" HorizontalAlignment="Left"
+                     AutomationProperties.Name="Markdown-Quelle">
+              <ListBox.ItemsPanel>
+                <ItemsPanelTemplate><StackPanel Orientation="Horizontal" /></ItemsPanelTemplate>
+              </ListBox.ItemsPanel>
+              <ListBox.Styles>
+                <Style Selector="ListBoxItem">
+                  <Setter Property="Padding" Value="16,9" />
+                  <Setter Property="CornerRadius" Value="7" />
+                  <Setter Property="FontWeight" Value="SemiBold" />
+                  <Setter Property="Cursor" Value="Hand" />
+                </Style>
+              </ListBox.Styles>
+              <ListBoxItem Content="Markdown-Datei" />
+              <ListBoxItem Content="Zwischenablage" />
+            </ListBox>
+            </Grid>
+            <StackPanel x:Name="FileSourcePanel" IsVisible="{Binding IsFileSource}" Spacing="12">
+              <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
+              <TextBox x:Name="InputPathBox" Text="{Binding InputPath, Mode=TwoWay}" PlaceholderText="Markdown-Datei auswählen oder Pfad einfügen …"
+                       IsEnabled="{Binding IsIdle}" AutomationProperties.Name="Markdown-Datei" ToolTip.Tip="{Binding InputPath}" />
+              <Button Grid.Column="1" x:Name="BrowseInputButton" Classes="secondary" Content="Browse …" Click="BrowseInput_Click"
+                      IsEnabled="{Binding IsIdle}" AutomationProperties.Name="Markdown-Datei durchsuchen" />
+              </Grid>
+              <TextBlock Classes="muted" Text="{Binding SourceHint}" FontSize="12" TextWrapping="Wrap" />
+            </StackPanel>
+            <StackPanel x:Name="ClipboardSourcePanel" IsVisible="{Binding IsClipboardSource}" Spacing="10">
+              <Grid ColumnDefinitions="Auto,Auto,*" ColumnSpacing="12">
+                <Button x:Name="PasteButton" Classes="secondary" Content="{Binding PasteLabel}" Click="Paste_Click"
+                        IsEnabled="{Binding IsIdle}" HorizontalAlignment="Left" />
+                <Button Grid.Column="1" x:Name="ClearPreviewButton" Classes="secondary" Content="Clear" Click="ClearPreview_Click"
+                        IsEnabled="{Binding CanClearPreview}" AutomationProperties.Name="Markdown-Vorschau leeren"
+                        ToolTip.Tip="Leert den Text in der Vorschau." />
+                <TextBlock Grid.Column="2" Classes="muted" Text="In ChatGPT „Kopieren“ wählen, hier einfügen und bei Bedarf bearbeiten." FontSize="12" TextWrapping="Wrap" VerticalAlignment="Center" />
+              </Grid>
+              <TextBox x:Name="MarkdownPreviewBox" Text="{Binding MarkdownText, Mode=TwoWay}" Height="180"
+                       AcceptsReturn="True" TextWrapping="Wrap" VerticalContentAlignment="Top" FontSize="13"
+                       ScrollViewer.VerticalScrollBarVisibility="Auto" IsEnabled="{Binding IsIdle}"
+                       PlaceholderText="Deine Markdown-Vorschau …&#10;&#10;Text über den Knopf einfügen oder hier mit Strg+V einsetzen."
+                       AutomationProperties.Name="Markdown-Vorschau bearbeiten" />
+              <TextBlock Classes="muted" Text="{Binding PreviewSummary}" FontSize="11" />
+            </StackPanel>
+          </StackPanel>
+        </Border>
+
+        <Border Classes="card">
+          <StackPanel Spacing="12">
+            <Grid ColumnDefinitions="32,*">
+              <Border Background="#EEF2FD" CornerRadius="9" Width="28" Height="28">
+                <TextBlock Text="2" Foreground="#315BDF" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" />
+              </Border>
+              <TextBlock Grid.Column="1" Text="Speicherort" Margin="8,0,0,0" FontSize="17" FontWeight="SemiBold" VerticalAlignment="Center" />
+            </Grid>
+            <CheckBox x:Name="SameFolderCheckBox" Content="Im selben Ordner wie die Markdown-Datei speichern" IsChecked="{Binding UseSourceFolder, Mode=TwoWay}" IsEnabled="{Binding IsIdle}" IsVisible="{Binding IsFileSource}" />
+            <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
+              <TextBox x:Name="OutputPathBox" Text="{Binding OutputPath, Mode=TwoWay}" PlaceholderText="Vollständiger Speicherort für dein Word-Dokument …"
+                       IsReadOnly="{Binding IsOutputReadOnly}" IsEnabled="{Binding IsIdle}" AutomationProperties.Name="Word-Ausgabedatei"
+                       ToolTip.Tip="{Binding OutputPath}" />
+              <Button Grid.Column="1" x:Name="BrowseOutputButton" Classes="secondary" Content="Browse …" Click="BrowseOutput_Click"
+                      IsEnabled="{Binding IsIdle}" AutomationProperties.Name="Word-Speicherort durchsuchen" />
+            </Grid>
+            <TextBlock Classes="muted" Text="{Binding OutputHint}" FontSize="12" TextWrapping="Wrap" />
+          </StackPanel>
+        </Border>
+
+      </StackPanel>
+    </ScrollViewer>
+    <Border Grid.Row="2" Background="#F4F6FB" BorderBrush="#E1E6F0" BorderThickness="0,1,0,0" Padding="36,16,36,18">
+      <StackPanel Spacing="12" MaxWidth="1000">
+        <Border Background="{Binding StatusBackground}" CornerRadius="12" Padding="16" MinHeight="84">
+          <Grid ColumnDefinitions="28,*" ColumnSpacing="10">
+            <Border BorderBrush="{Binding StatusForeground}" BorderThickness="1.5" Width="24" Height="24" CornerRadius="12" VerticalAlignment="Top" Margin="0,1,0,0">
+              <TextBlock Text="{Binding StatusSymbol}" Foreground="{Binding StatusForeground}" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            </Border>
+            <StackPanel Grid.Column="1" Spacing="5">
+              <TextBlock Text="{Binding StatusTitle}" Foreground="{Binding StatusForeground}" FontWeight="SemiBold" TextWrapping="Wrap" />
+              <ScrollViewer MaxHeight="88" HorizontalScrollBarVisibility="Disabled">
+                <SelectableTextBlock Text="{Binding StatusMessage}" Foreground="{Binding StatusForeground}" TextWrapping="Wrap" FontSize="13" />
+              </ScrollViewer>
+              <ProgressBar IsVisible="{Binding IsBusy}" IsIndeterminate="{Binding IsBusy}" Height="3" Margin="0,8,0,0" Foreground="#315BDF" />
+            </StackPanel>
+          </Grid>
+        </Border>
+
+        <Grid ColumnDefinitions="*,Auto" Margin="0,2,0,0">
+          <StackPanel Orientation="Horizontal" Spacing="10">
+            <Button x:Name="ConvertButton" Classes="primary" Content="{Binding ConvertLabel}" Click="Convert_Click" IsEnabled="{Binding CanConvert}" Padding="24,13" />
+            <Button Content="Abbrechen" Click="Cancel_Click" IsVisible="{Binding IsBusy}" />
+          </StackPanel>
+          <Button Grid.Column="1" x:Name="OpenButton" Classes="secondary" Content="Word-Datei öffnen  ↗" Click="Open_Click" IsEnabled="{Binding CanOpen}"
+                  ToolTip.Tip="Öffnet das fertige Dokument mit der Standardanwendung für .docx." />
+        </Grid>
+        <TextBlock Text="Konvertierung auf deinem Gerät · Kein Microsoft Word zur Erstellung nötig" Classes="muted" FontSize="11" HorizontalAlignment="Center" Margin="0,2,0,0" TextWrapping="Wrap" />
+      </StackPanel>
+    </Border>
+  </Grid>
+</Window>

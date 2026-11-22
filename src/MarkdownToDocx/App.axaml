@@ -1,0 +1,59 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="MarkdownToDocx.App"
+             RequestedThemeVariant="Light">
+  <Application.Styles>
+    <FluentTheme>
+      <FluentTheme.Palettes>
+        <ColorPaletteResources x:Key="Light" Accent="#315BDF" />
+      </FluentTheme.Palettes>
+    </FluentTheme>
+    <Style Selector="Window">
+      <Setter Property="FontFamily" Value="fonts:Inter#Inter" />
+      <Setter Property="FontSize" Value="14" />
+      <Setter Property="Foreground" Value="#1B2942" />
+    </Style>
+    <Style Selector="Button">
+      <Setter Property="CornerRadius" Value="9" />
+      <Setter Property="Padding" Value="18,11" />
+      <Setter Property="MinHeight" Value="43" />
+      <Setter Property="Cursor" Value="Hand" />
+      <Setter Property="FontWeight" Value="SemiBold" />
+    </Style>
+    <Style Selector="Button.primary">
+      <Setter Property="Background" Value="#315BDF" />
+      <Setter Property="Foreground" Value="White" />
+      <Setter Property="BorderThickness" Value="0" />
+    </Style>
+    <Style Selector="Button.primary:pointerover /template/ ContentPresenter">
+      <Setter Property="Background" Value="#254AC4" />
+      <Setter Property="Foreground" Value="White" />
+    </Style>
+    <Style Selector="Button.primary:pressed /template/ ContentPresenter">
+      <Setter Property="Background" Value="#203EA4" />
+    </Style>
+    <Style Selector="Button.secondary">
+      <Setter Property="Background" Value="White" />
+      <Setter Property="BorderBrush" Value="#D8DFEA" />
+      <Setter Property="BorderThickness" Value="1" />
+    </Style>
+    <Style Selector="TextBox">
+      <Setter Property="CornerRadius" Value="9" />
+      <Setter Property="MinHeight" Value="44" />
+      <Setter Property="Padding" Value="12,10" />
+      <Setter Property="Background" Value="#F8FAFD" />
+      <Setter Property="BorderBrush" Value="#D8DFEA" />
+      <Setter Property="VerticalContentAlignment" Value="Center" />
+    </Style>
+    <Style Selector="TextBlock.muted">
+      <Setter Property="Foreground" Value="#64718A" />
+    </Style>
+    <Style Selector="Border.card">
+      <Setter Property="Background" Value="White" />
+      <Setter Property="BorderBrush" Value="#E1E6F0" />
+      <Setter Property="BorderThickness" Value="1" />
+      <Setter Property="CornerRadius" Value="16" />
+      <Setter Property="Padding" Value="24" />
+    </Style>
+  </Application.Styles>
+</Application>
